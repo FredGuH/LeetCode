@@ -1,0 +1,39 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int H = haystack.length();
+        int N = needle.length();
+        
+        if (N == 0) {
+            return 0;
+        }
+
+        int ph = 0;
+
+        while (ph < H - N + 1) {
+            // find the position of the first needle character in the haystack string
+            while (ph < H - N + 1 
+                   && haystack.charAt(ph) != needle.charAt(0)) {
+                ph++;
+            }
+
+            // compute the max match string
+            int currLen = 0, pn = 0;
+
+            while (pn < N && ph < H 
+                   && haystack.charAt(ph) == needle.charAt(pn)) {
+                ph++;
+                pn++;
+                currLen++;
+            }
+
+            // if the whole needle string is found, return its start position
+            if (currLen == N) {
+                return ph - N;
+            }
+
+            // otherwise, backtrack
+            ph = ph - currLen + 1;
+        }
+        return -1;
+    }
+}
